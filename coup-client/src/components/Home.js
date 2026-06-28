@@ -49,10 +49,9 @@ export default function Home() {
                         rel="noopener noreferrer"
                     >
                         bGtoyz
-						Credit Ethan
                     </a>
                 </p>
-                <p className="version-number">v2.0 &middot; Online &amp; LAN</p>
+                <p className="version-number">v2.0 &middot; Online &amp; LAN Credit Ethan</p>
             </footer>
         </div>
     );
