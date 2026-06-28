@@ -1,0 +1,243 @@
+/* ==========================================================================
+   Coup Online — Design Tokens ("Underground Parlor" theme)
+   ========================================================================== */
+:root {
+  /* Surfaces */
+  --bg: #0B0D12;
+  --bg-radial: #11141C;
+  --surface: #14181F;
+  --surface-raised: #1C2230;
+  --surface-border: #272E40;
+  --felt: #11241B;
+  --felt-border: #1C3A2A;
+
+  /* Text */
+  --text: #EDEEF2;
+  --text-dim: #8A8F9C;
+  --text-faint: #5C6270;
+
+  /* Accents */
+  --gold: #E8C766;
+  --gold-soft: #F3DB94;
+  --gold-dim: #7A6A3C;
+  --emerald: #3FBF8F;
+  --emerald-soft: #6FE0B5;
+  --crimson: #D85C5C;
+  --crimson-soft: #F08080;
+  --violet: #9C8CE0;
+
+  /* Influence colors */
+  --c-duke: #C77DDE;
+  --c-assassin: #6B7280;
+  --c-captain: #5CB8E0;
+  --c-contessa: #E0615F;
+  --c-ambassador: #B9CC4A;
+
+  /* Typography */
+  --font-display: 'Cinzel', 'Georgia', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+
+  /* Misc */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.45);
+  --shadow-glow-gold: 0 0 0 1px rgba(232, 199, 102, 0.25), 0 8px 24px rgba(232, 199, 102, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100%;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 20% 0%, rgba(232, 199, 102, 0.06), transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(63, 191, 143, 0.05), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(156, 140, 224, 0.05), transparent 50%);
+  background-attachment: fixed;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+}
+
+b, strong {
+  font-weight: 700;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input {
+  font-family: var(--font-body);
+  font-size: 16px;
+  background: var(--surface);
+  border: 1.5px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+
+input::placeholder {
+  color: var(--text-faint);
+}
+
+input:focus {
+  border-color: var(--gold-dim);
+  box-shadow: 0 0 0 3px rgba(232, 199, 102, 0.12);
+}
+
+input:disabled {
+  opacity: 0.6;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-border);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+}
+
+/* Shared utility classes ---------------------------------------------- */
+
+.btn {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14.5px;
+  letter-spacing: 0.01em;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 13px 22px;
+  color: #0B0D12;
+  background: var(--gold);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+  box-shadow: 0 4px 14px rgba(232, 199, 102, 0.18);
+}
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(232, 199, 102, 0.28);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+.btn:disabled {
+  background: var(--surface-raised);
+  color: var(--text-faint);
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background: var(--surface-raised);
+  color: var(--text);
+  border: 1.5px solid var(--surface-border);
+  box-shadow: none;
+}
+.btn-secondary:hover:not(:disabled) {
+  border-color: var(--gold-dim);
+  box-shadow: none;
+}
+
+.btn-danger {
+  background: var(--crimson);
+  color: #1a0a0a;
+  box-shadow: 0 4px 14px rgba(216, 92, 92, 0.18);
+}
+
+.btn-success {
+  background: var(--emerald);
+  color: #07261c;
+  box-shadow: 0 4px 14px rgba(63, 191, 143, 0.18);
+}
+
+.btn-block {
+  width: 100%;
+  display: block;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-dim);
+  border: none;
+  box-shadow: none;
+  padding: 8px 10px;
+}
+.btn-ghost:hover:not(:disabled) {
+  color: var(--text);
+  transform: none;
+}
+
+.label {
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.error-text {
+  color: var(--crimson-soft);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

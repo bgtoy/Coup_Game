@@ -1,0 +1,231 @@
+.ModalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 6, 9, 0.72);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.ModalContent {
+    position: relative;
+    outline: none;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    width: 100%;
+    max-width: 560px;
+    max-height: 85vh;
+    padding: 28px 24px 24px;
+}
+
+.ModalContent--wide {
+    max-width: 720px;
+}
+
+.ModalScroll {
+    overflow-y: auto;
+    max-height: calc(85vh - 52px);
+    padding-right: 6px;
+    text-align: left;
+}
+
+.ModalCloseBtn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: var(--surface-raised);
+    border: none;
+    color: var(--text-dim);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.15s;
+}
+.ModalCloseBtn:hover {
+    background: var(--surface-border);
+    color: var(--text);
+}
+
+.ModalTitle {
+    font-size: 24px;
+    color: var(--gold);
+    margin-bottom: 6px;
+}
+
+.ModalLead {
+    color: var(--text-dim);
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.ModalScroll p {
+    font-size: 14.5px;
+    margin-bottom: 12px;
+    color: var(--text);
+}
+
+.RuleSection {
+    margin-top: 22px;
+    margin-bottom: 4px;
+}
+
+.RuleSectionTitle {
+    font-size: 15px;
+    color: var(--gold-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+}
+
+.RuleCardGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.RuleCard {
+    background: var(--surface-raised);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+}
+
+.RuleCardHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.RuleCardHeader h3 {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.RuleCardDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.RuleCard p {
+    font-size: 13px;
+    margin-bottom: 0;
+    color: var(--text-dim);
+}
+
+.RuleCardNote {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--text-faint);
+}
+
+.ModalFootnote {
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid var(--surface-border);
+    color: var(--text-dim);
+    font-size: 13px;
+}
+
+/* Trigger buttons (used in Home + in-game header) */
+.HomeRulesBtn, .GameRulesBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 999px;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    transition: 0.15s;
+}
+.HomeRulesBtn:hover, .GameRulesBtn:hover {
+    color: var(--gold);
+    border-color: var(--gold-dim);
+}
+
+.InfoIconCircle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    font-style: italic;
+}
+
+/* Cheat sheet table */
+.CheatTableWrap {
+    overflow-x: auto;
+}
+.CheatTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.CheatTable th {
+    text-align: left;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--surface-border);
+}
+.CheatTable td {
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--surface-border);
+    color: var(--text-dim);
+}
+.CheatTableAction {
+    color: var(--text);
+    font-weight: 600;
+}
+.CheatTable tr:last-child td {
+    border-bottom: none;
+}
+
+@media (max-width: 480px) {
+    .RuleCardGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Game over modal */
+.GameOverModal {
+    max-width: 380px;
+    text-align: center;
+}
+.GameOverContent {
+    padding: 10px 0 4px;
+}
+.GameOverCrown {
+    font-size: 40px;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 10px;
+}
+.GameOverTitle {
+    font-size: 26px;
+    color: var(--text);
+    margin: 8px 0 22px;
+}
+
