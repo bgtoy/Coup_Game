@@ -44,14 +44,14 @@ export default function Home() {
                     Made by{' '}
                     <a
                         className="website-link"
-                        href="https://github.com/bgtoy"
+                        href="https://github.com/cheneth"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        bGtoyz
+                        Ethan Chen
                     </a>
                 </p>
-                <p className="version-number">v2.0 &middot; Online &amp; LAN Credit Ethan</p>
+                <p className="version-number">v2.0 &middot; Online &amp; LAN</p>
             </footer>
         </div>
     );

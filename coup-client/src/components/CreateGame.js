@@ -5,7 +5,7 @@ import axios from 'axios';
 import Coup from './game/Coup';
 import PlayerList from './PlayerList';
 import { getBackendUrl } from '../utils/backend';
-import { getPlayerToken } from '../utils/playerToken';
+import { getOrCreateToken, saveGameSession, clearGameSession } from '../utils/gameSession';
 import './LobbyStyles.css';
 
 const baseUrl = getBackendUrl();
@@ -32,13 +32,14 @@ export default function CreateGame() {
             reconnectionDelayMax: 4000,
         });
         socketRef.current = socket;
-        tokenRef.current = getPlayerToken(code);
+        tokenRef.current = getOrCreateToken();
 
         socket.emit('setName', playerName, tokenRef.current);
 
         socket.on('joinSuccess', () => {
             setIsLoading(false);
             setIsInRoom(true);
+            saveGameSession({ roomCode: code, name: playerName, token: tokenRef.current });
         });
 
         socket.on('joinFailed', (err) => {
@@ -60,6 +61,7 @@ export default function CreateGame() {
 
         socket.on('leaderDisconnect', () => {
             setErrorMsg('The room was closed.');
+            clearGameSession();
         });
     }, []);
 

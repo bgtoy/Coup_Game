@@ -127,9 +127,16 @@ Detail lengkap tersedia di tombol **Rules** dan **Cheat Sheet** di dalam game.
 ### Catatan tentang reconnect
 
 - Reconnect bekerja otomatis selama kamu membuka kembali game di **tab/browser yang sama** tempat
-  kamu bermain sebelumnya (token tersimpan per sesi browser, bukan per akun).
-- Kalau host/leader keluar **sebelum** game dimulai (masih di lobby), room akan ditutup seperti
-  biasa — reconnect hanya berlaku setelah game benar-benar dimulai.
-- Saat menunggu koneksi balik, kamu akan melihat banner kuning kecil "Reconnecting…" di bagian atas
-  layar; ini akan hilang otomatis begitu tersambung kembali.
+  kamu bermain sebelumnya — termasuk setelah **reload/refresh halaman penuh**. Begitu halaman
+  dimuat ulang, app otomatis mendeteksi sesi yang tersimpan dan langsung mencoba menyambung
+  kembali ke game, tanpa perlu input nama/room code lagi.
+- Selama mencoba menyambung kembali, kamu akan melihat layar "Reconnecting to your game…".
+  Kalau berhasil, kamu langsung kembali ke meja dengan coin dan kartu yang sama persis seperti
+  sebelum disconnect.
+- Kalau room sudah tidak ada lagi (server di-restart, game sudah benar-benar selesai, dst.), kamu
+  akan otomatis dikembalikan ke halaman Home.
+- Token sesi disimpan per-tab (`sessionStorage`), bukan per-akun — jadi kalau ganti device atau
+  buka tab baru, dia dianggap pemain baru, bukan reconnect ke pemain lama.
+- Saat masih di **lobby** (sebelum game dimulai) dan kamu reload, kamu juga akan otomatis kembali
+  ke kursi yang sama di party list — termasuk status "host" kalau sebelumnya kamu adalah host.
 

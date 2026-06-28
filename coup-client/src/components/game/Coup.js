@@ -12,9 +12,9 @@ import InfluenceHand from './InfluenceHand';
 import GameOverModal from './GameOverModal';
 import CheatSheetModal from '../CheatSheetModal';
 import RulesModal from '../RulesModal';
+import { clearGameSession } from '../../utils/gameSession';
 import TopBar from "./TopBar";
 import './CoupStyles.css';
-
 
 const influenceColorMap = {
     duke: 'var(--c-duke)',
@@ -62,7 +62,10 @@ export default function Coup({ name, socket, roomCode, playerToken }) {
 
         const onRejoinedGame = () => setConnectionState('connected');
 
-        const onReconnectFailed = () => setConnectionState('failed');
+        const onReconnectFailed = () => {
+            setConnectionState('failed');
+            clearGameSession();
+        };
 
         const onGameOver = (winnerName) => {
             setWinner(winnerName);
@@ -200,6 +203,12 @@ export default function Coup({ name, socket, roomCode, playerToken }) {
         setShowGameOver(false);
     };
 
+    const leaveTable = () => {
+        clearGameSession();
+        socket.disconnect();
+        window.location.href = '/';
+    };
+
     if (connectionState === 'failed') {
         return (
             <div className="GameContainer">
@@ -234,29 +243,17 @@ export default function Coup({ name, socket, roomCode, playerToken }) {
 			<TopBar
 
 			roomCode={roomCode}
-
 			currentPlayer={currentPlayer}
-
 			connectionState={connectionState}
 
 			/>
             <header className="GameTopBar">
                 <div className="GameTopBarLeft">
-                    <div className="GamePlayerChip">
-                        <span className="GamePlayerChipName">{name}</span>
-                        {me && <span className="GamePlayerChipCoins">🪙 {me.money}</span>}
-                    </div>
+             
                     <RulesModal />
                     <CheatSheetModal />
                 </div>
-                <div className="GameTopBarRight">
-                    {currentPlayer && (
-                        <div className="GameTurnIndicator">
-                            <span className="GameTurnDot"></span>
-                            <span><b>{currentPlayer}</b>'s turn</span>
-                        </div>
-                    )}
-                </div>
+               
             </header>
 
             <PlayerBoard players={players} currentPlayer={currentPlayer} myName={name} />
@@ -351,7 +348,7 @@ export default function Coup({ name, socket, roomCode, playerToken }) {
 
             <EventLog logs={logs} />
 
-            {showGameOver && <GameOverModal winner={winner} onPlayAgain={playAgain} />}
+            {showGameOver && <GameOverModal winner={winner} onPlayAgain={playAgain} onLeave={leaveTable} />}
         </div>
     );
 }

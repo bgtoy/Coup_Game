@@ -1,5 +1,33 @@
 import React from 'react';
 
+const CARD_INFO = {
+
+    duke:{
+        icon:"👑",
+        color:"#fbbf24"
+    },
+
+    assassin:{
+        icon:"☠",
+        color:"#9f1239"
+    },
+
+    captain:{
+        icon:"⚓",
+        color:"#2563eb"
+    },
+
+    ambassador:{
+        icon:"🤝",
+        color:"#22c55e"
+    },
+
+    contessa:{
+        icon:"🛡",
+        color:"#ec4899"
+    }
+
+};
 const ACTION_MAP = {
     tax: ['duke'],
     assassinate: ['assassin'],
@@ -26,27 +54,90 @@ export default function RevealDecision({ doneReveal, name, socket, res, influenc
         doneReveal();
     };
 
-    return (
-        <div className="DecisionPanel DecisionPanel--danger">
-            <p className="DecisionTitle">You've been challenged!</p>
-            <p className="DecisionDesc">
-                Reveal <b>{validInfluences.map(capitalize).join(' or ')}</b> to prove your claim,
-                or you'll lose an influence of your choice.
-            </p>
-            <div className="TargetGrid">
-                {influences.map((influence, index) => (
-                    <button
-                        key={`${influence}-${index}`}
-                        className="TargetBtn"
-                        style={{ '--target-color': colorMap[influence] }}
-                        onClick={() => selectInfluence(influence)}
-                    >
-                        {influence}
-                    </button>
-                ))}
-            </div>
-        </div>
-    );
+   return (
+
+<div className="RevealOverlay">
+
+<div className="RevealModal">
+
+<div className="RevealHeader">
+
+💀 REVEAL YOUR INFLUENCE
+
+</div>
+
+<div className="RevealDescription">
+
+You have been challenged.
+
+Reveal
+
+<b>
+{" "}
+{validInfluences.map(capitalize).join(" or ")}
+</b>
+to prove your claim.
+</div>
+
+<div className="RevealCards">
+
+{
+
+influences.map((influence,index)=>{
+
+const info= CARD_INFO[influence];
+
+return(
+
+<button
+
+key={`${influence}-${index}`}
+
+className="RevealCard"
+
+style={{
+
+"--card-color":info.color
+
+}}
+
+onClick={()=>selectInfluence(influence)}
+
+>
+
+<div className="RevealCardIcon">
+
+{info.icon}
+
+</div>
+
+<div className="RevealCardTitle">
+
+{capitalize(influence)}
+
+</div>
+
+<div className="RevealCardHint">
+
+Click to Reveal
+
+</div>
+
+</button>
+
+);
+
+})
+
+}
+
+</div>
+
+</div>
+
+</div>
+
+);
 }
 
 function capitalize(s) {

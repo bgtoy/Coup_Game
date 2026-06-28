@@ -1,13 +1,70 @@
 import React, { useState } from 'react';
 
 const ACTIONS = [
-    { key: 'income', label: 'Income', desc: '+1 coin', color: 'var(--text-dim)' },
-    { key: 'foreign_aid', label: 'Foreign Aid', desc: '+2 coins', color: 'var(--text-dim)' },
-    { key: 'tax', label: 'Tax', desc: '+3 coins', color: 'var(--c-duke)', claim: 'Duke' },
-    { key: 'steal', label: 'Steal', desc: 'Take 2 coins', color: 'var(--c-captain)', claim: 'Captain', needsTarget: true },
-    { key: 'exchange', label: 'Exchange', desc: 'Swap influences', color: 'var(--c-ambassador)', claim: 'Ambassador' },
-    { key: 'assassinate', label: 'Assassinate', desc: 'Cost 3 coins', color: 'var(--text)', claim: 'Assassin', needsTarget: true, cost: 3 },
-    { key: 'coup', label: 'Coup', desc: 'Cost 7 coins', color: 'var(--crimson)', needsTarget: true, cost: 7 },
+    {
+        key: 'income',
+        label: 'Income',
+        icon: '💰',
+        desc: '+1 coin',
+        color: 'var(--text-dim)'
+    },
+
+    {
+        key: 'foreign_aid',
+        label: 'Foreign Aid',
+        icon: '🏦',
+        desc: '+2 coins',
+        color: 'var(--text-dim)'
+    },
+
+    {
+        key: 'tax',
+        label: 'Tax',
+        icon: '👑',
+        desc: '+3 coins',
+        color: 'var(--c-duke)',
+        claim: ' Duke'
+    },
+
+    {
+        key: 'steal',
+        label: 'Steal',
+        icon: '🗡',
+        desc: 'Take 2 coins',
+        color: 'var(--c-captain)',
+        claim: ' Captain',
+        needsTarget: true
+    },
+
+    {
+        key: 'exchange',
+        label: 'Exchange',
+        icon: '🔄',
+        desc: 'Swap influences',
+        color: 'var(--c-ambassador)',
+        claim: ' Ambassador'
+    },
+
+    {
+        key: 'assassinate',
+        label: 'Assassinate',
+        icon: '☠',
+        desc: 'Cost 3 coins',
+        color: 'var(--text)',
+        claim: ' Assassin',
+        needsTarget: true,
+        cost: 3
+    },
+
+    {
+        key: 'coup',
+        label: 'Coup',
+        icon: '💥',
+        desc: 'Cost 7 coins',
+        color: 'var(--crimson)',
+        needsTarget: true,
+        cost: 7
+    }
 ];
 
 export default function ActionDecision({ doneAction, deductCoins, name, socket, money, players }) {
@@ -79,7 +136,7 @@ export default function ActionDecision({ doneAction, deductCoins, name, socket, 
 
     return (
         <div className="DecisionPanel">
-            <p className="DecisionTitle">Choose an action</p>
+            <p className="DecisionTitle">Choose your action</p>
             {mustCoup && (
                 <p className="DecisionHint">You have 10+ coins — you must Coup this turn.</p>
             )}
@@ -91,9 +148,12 @@ export default function ActionDecision({ doneAction, deductCoins, name, socket, 
                         style={{ '--action-color': a.color }}
                         onClick={() => handleActionClick(a.key)}
                     >
-                        <span className="ActionCardLabel">{a.label}</span>
+						
+                        <span className="ActionCardLabel">
+							<span className="ActionIcon">{a.icon} </span>{a.label}</span>
                         <span className="ActionCardDesc">{a.desc}</span>
-                        {a.claim && <span className="ActionCardClaim">claims {a.claim}</span>}
+						
+                       {a.claim && (<div className="ActionClaim">Claim<b>{a.claim}</b></div>)}
                     </button>
                 ))}
             </div>

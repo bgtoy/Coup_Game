@@ -73,7 +73,7 @@ app.get('/exists/:namespace', (req, res) => {
 // ---------------------------------------------------------------------------
 function openSocket(gameSocket, namespace) {
     let players = []; // includes vacated slots, kept for index stability
-    let partyLeaderSocketId = '';
+    let partyLeaderName = '';
     let started = false;
     let game = null; // CoupGame instance once started
     const tokenToName = {}; // playerToken -> name, persists for the life of the room
@@ -116,21 +116,37 @@ function openSocket(gameSocket, namespace) {
                 socket.emit('joinFailed', 'invalid_name');
                 return;
             }
-            const activeCount = players.filter((x) => x.player !== '').length;
-            if (players.map((x) => x.player).includes(name)) {
-                socket.emit('joinFailed', 'name_taken');
-                return;
+
+            const existingSlotIndex = players.findIndex((x) => x.player === name);
+            let isReclaim = false;
+            if (existingSlotIndex !== -1) {
+                // If the same token is reclaiming their own name (e.g. a fast
+                // page reload where the old socket hasn't been cleaned up
+                // yet by the server), let them take over that seat instead
+                // of bouncing them with "name taken".
+                const existingToken = players[existingSlotIndex].token;
+                if (existingToken && existingToken === token) {
+                    players[existingSlotIndex].player = '';
+                    players[existingSlotIndex].socket_id = '';
+                    isReclaim = true;
+                } else {
+                    socket.emit('joinFailed', 'name_taken');
+                    return;
+                }
             }
-            if (activeCount >= MAX_PLAYERS) {
+
+            const activeCount = players.filter((x) => x.player !== '').length;
+            if (!isReclaim && activeCount >= MAX_PLAYERS) {
                 socket.emit('joinFailed', 'party_full');
                 return;
             }
 
-            if (activeCount === 0) {
-                partyLeaderSocketId = socket.id;
+            const isLeader = isReclaim ? name === partyLeaderName : activeCount === 0;
+            if (isLeader) {
+                partyLeaderName = name;
                 players[index].isReady = true;
                 socket.emit('leader');
-                console.log(`[room ${namespace}] leader is ${socket.id}`);
+                console.log(`[room ${namespace}] leader is ${name}`);
             }
 
             players[index].player = name;
@@ -177,15 +193,27 @@ function openSocket(gameSocket, namespace) {
                     if (x.player !== '') {
                         gameSocket.emit('g-addLog', `${x.player} disconnected`);
                     }
+                    const wasLeader = x.player === partyLeaderName;
+                    const leaderNameAtDisconnect = x.player;
                     players[i].player = '';
 
-                    if (socket.id === partyLeaderSocketId && !started) {
-                        console.log(`[room ${namespace}] leader left before game start, closing room`);
-                        gameSocket.emit('leaderDisconnect', 'leader_disconnected');
-                        const roomCode = namespace.substring(1);
-                        delete io._nsps.get(namespace);
-                        delete namespaces[roomCode];
-                        players = [];
+                    if (wasLeader && !started) {
+                        // Grace period: the leader might just be reloading the
+                        // page, in which case a new socket claiming the same
+                        // name (with the same token) will arrive within a
+                        // second or two. Only close the room if nobody has
+                        // reclaimed that seat by the time the grace period
+                        // elapses.
+                        setTimeout(() => {
+                            const reclaimed = players.some((p) => p.player === leaderNameAtDisconnect);
+                            if (reclaimed || started) return;
+                            console.log(`[room ${namespace}] leader left before game start, closing room`);
+                            gameSocket.emit('leaderDisconnect', 'leader_disconnected');
+                            const roomCode = namespace.substring(1);
+                            delete io._nsps.get(namespace);
+                            delete namespaces[roomCode];
+                            players = [];
+                        }, 3000);
                     }
                 }
             });
