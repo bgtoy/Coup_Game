@@ -12,7 +12,9 @@ import InfluenceHand from './InfluenceHand';
 import GameOverModal from './GameOverModal';
 import CheatSheetModal from '../CheatSheetModal';
 import RulesModal from '../RulesModal';
+import TopBar from "./TopBar";
 import './CoupStyles.css';
+
 
 const influenceColorMap = {
     duke: 'var(--c-duke)',
@@ -229,6 +231,15 @@ export default function Coup({ name, socket, roomCode, playerToken }) {
                     Reconnecting…
                 </div>
             )}
+			<TopBar
+
+			roomCode={roomCode}
+
+			currentPlayer={currentPlayer}
+
+			connectionState={connectionState}
+
+			/>
             <header className="GameTopBar">
                 <div className="GameTopBarLeft">
                     <div className="GamePlayerChip">
